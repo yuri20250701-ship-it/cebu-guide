@@ -1,5 +1,5 @@
 const CACHE = 'cebu-v3';
-const ASSETS = ['./', './index.html', './cebu_map.png', './manifest.json', './icon.svg'];
+const ASSETS = ['./', './index.html', './cebu_map.png', './manifest.json', './APP-ICON.png'];
 
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(ASSETS)));
