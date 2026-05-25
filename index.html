@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="CEBU札記">
+<meta name="theme-color" content="#2E7D8C">
+<title>CEBU 宿霧札記 | 深度旅遊 & 生活指南</title>
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'><rect width='180' height='180' rx='40' fill='%232E7D8C'/><text x='90' y='125' font-size='90' text-anchor='middle'>🌺</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+--bg:#FAF5ED;--card:#FFFBF5;--card2:#FFF7EC;
+--border:#E8DFD2;--borderL:#F0E9DE;
+--terra:#C75C2E;--terraL:#FDF0E8;--terraD:#A04820;
+--teal:#2E7D8C;--tealL:#E4F2F5;--tealD:#1B5E6B;
+--olive:#5B8A4E;--oliveL:#EDF5EA;
+--gold:#B8862B;--goldL:#FDF6E3;
+--plum:#7E5A8E;--plumL:#F3EDF6;
+--rose:#C25562;--roseL:#FDECEE;
+--ink:#2E1F10;--ink2:#584838;--ink3:#887868;--inkL:#B0A090;
+--ocean:#3BA5C9;--oceanL:#E0F0F6;--seafoam:#A8DDE0;--sand:#F5E6D3;
+--st:env(safe-area-inset-top,0px);--sb:env(safe-area-inset-bottom,0px);
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{scroll-behavior:smooth}
+body{font-family:'Noto Sans TC',-apple-system,'Helvetica Neue','PingFang TC',sans-serif;background:var(--bg);color:var(--ink);font-size:15px;line-height:1.7;-webkit-font-smoothing:antialiased;padding-bottom:calc(var(--sb) + 68px);min-height:100dvh}
+
+/* === HEADER === */
+.hdr{background:linear-gradient(180deg,#D6EEF5 0%,var(--card) 100%);padding:calc(var(--st) + 24px) 16px 20px;text-align:center;border-bottom:none;position:relative}
+.hdr::after{content:none}
+.hdr-logo{font-family:'Caveat',cursive;font-size:2.4rem;font-weight:700;color:var(--ink);line-height:1.1}
+.hdr-logo b{color:var(--terra)}
+.hdr-sub{font-size:.78rem;color:var(--ink3);margin-top:2px;letter-spacing:.5px}
+
+/* === WAVE === */
+.wave-sep{line-height:0;margin-top:-1px;position:relative;z-index:1}
+.wave-sep svg{display:block;width:100%;height:auto}
+
+/* === TABS === */
+.tabs{position:sticky;top:0;z-index:100;display:flex;background:var(--card);box-shadow:0 2px 8px rgba(46,31,16,.06)}
+.tab{flex:1;padding:11px 6px 9px;text-align:center;font-size:.88rem;font-weight:700;color:var(--ink3);cursor:pointer;border:none;background:none;font-family:inherit;position:relative;transition:.15s}
+.tab.on{color:var(--terra)}
+.tab.on::after{content:'';position:absolute;bottom:0;left:20%;right:20%;height:3px;background:var(--terra);border-radius:3px 3px 0 0}
+.tab small{font-family:'Caveat',cursive;font-size:.72rem;display:block;font-weight:500;color:var(--inkL);margin-top:1px}
+
+/* === PANELS === */
+.panel{display:none;position:relative}.panel.on{display:block}
+.ct{max-width:640px;margin:0 auto;padding:10px 14px 24px}
+
+/* === SECTION HEADER === */
+.sh{display:flex;align-items:center;gap:8px;margin:22px 0 10px;padding-bottom:6px;border-bottom:2px solid var(--seafoam)}
+.sh-icon{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0}
+.sh h2{font-size:1.05rem;font-weight:700;flex:1}
+.sh h2 span{font-family:'Caveat',cursive;font-size:.85rem;font-weight:500;color:var(--ink3);margin-left:6px}
+
+/* === QUICK NAV CHIPS === */
+.chips{display:flex;gap:6px;overflow-x:auto;padding:4px 0 10px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.chips::-webkit-scrollbar{display:none}
+.chip{flex-shrink:0;padding:6px 14px;border-radius:20px;font-size:.78rem;font-weight:600;border:1.5px solid var(--border);background:var(--card);color:var(--ink2);cursor:pointer;transition:.15s;text-decoration:none}
+.chip:active,.chip.on{background:var(--teal);color:#fff;border-color:var(--teal)}
+
+/* === MAP IMAGE === */
+.map-box{border-radius:14px;overflow:hidden;margin:0 0 14px;border:1.5px solid rgba(46,125,140,.2);background:var(--card);position:relative;box-shadow:0 4px 16px rgba(46,125,140,.08)}
+.map-box img{width:100%;display:block}
+.map-placeholder{padding:40px 20px;text-align:center;color:var(--ink3)}
+.map-placeholder .mp-icon{font-size:3rem;margin-bottom:8px;opacity:.5}
+.map-placeholder p{font-size:.8rem}
+
+/* === AREA CARD === */
+.ac{background:var(--card);border:1.5px solid var(--border);border-radius:14px;margin:10px 0;overflow:hidden;box-shadow:0 2px 8px rgba(46,31,16,.04);transition:box-shadow .15s}
+.ac:hover{box-shadow:0 3px 12px rgba(46,31,16,.08)}
+.ach{display:flex;align-items:center;gap:10px;padding:14px;cursor:pointer;user-select:none}
+.a-badge{width:42px;height:42px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.3rem;flex-shrink:0}
+.a-info{flex:1;min-width:0}
+.a-info h3{font-size:1rem;font-weight:700;line-height:1.25}
+.a-info h3 i{font-style:normal;font-family:'Caveat',cursive;font-weight:500;color:var(--ink3);font-size:.88rem}
+.a-info p{font-size:.75rem;color:var(--ink3);margin-top:1px;display:flex;flex-wrap:wrap;gap:4px}
+.a-info p em{font-style:normal;background:var(--bg);padding:1px 6px;border-radius:4px;font-size:.68rem;font-weight:500}
+.a-arrow{font-size:.7rem;color:var(--inkL);transition:transform .2s;flex-shrink:0;width:20px;text-align:center}
+.ac.o .a-arrow{transform:rotate(180deg)}
+.acb{display:none;padding:0 14px 14px;border-top:1px solid var(--borderL)}
+.ac.o .acb{display:block;padding-top:10px}
+
+/* MAP LINK BTN */
+.mbtn{display:inline-flex;align-items:center;gap:5px;padding:7px 16px;background:var(--teal);color:#fff;border-radius:20px;font-size:.78rem;font-weight:600;text-decoration:none;font-family:inherit;margin-bottom:8px}
+.mbtn:active{opacity:.85}
+
+/* SUB SECTION LABEL */
+.sub-label{display:inline-flex;align-items:center;gap:4px;font-size:.72rem;font-weight:700;color:var(--ink3);text-transform:uppercase;letter-spacing:.5px;margin:12px 0 6px;padding:3px 10px;background:var(--bg);border-radius:6px}
+.sub-label:first-of-type{margin-top:6px}
+
+/* SPOT ITEM */
+.si{display:flex;gap:8px;padding:8px 0;border-bottom:1px solid var(--borderL);align-items:flex-start}
+.si:last-child{border-bottom:none}
+.si-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0;margin-top:8px}
+.si-body{flex:1;min-width:0}
+.si-name{font-size:.88rem;font-weight:700}
+.si-name i{font-style:normal;font-weight:400;color:var(--ink3);font-size:.8rem}
+.si-desc{font-size:.78rem;color:var(--ink2);line-height:1.5;margin-top:1px}
+.tag{display:inline-block;font-size:.62rem;font-weight:700;padding:2px 8px;border-radius:10px;margin-top:3px;letter-spacing:.3px}
+.tag-eat{background:#FCEEE8;color:#B5522A}
+.tag-see{background:#E4F2F5;color:#1B5E6B}
+.tag-do{background:#EDF5EA;color:#3D6E30}
+.tag-tip{background:#FDF6E3;color:#8B6D1F}
+.tag-must{background:#FDECEE;color:#A03040}
+
+/* NOTE BOX */
+.note{border-radius:10px;padding:11px 13px;margin:8px 0;font-size:.8rem;line-height:1.6}
+.note strong{display:block;font-size:.82rem;margin-bottom:3px}
+.n-tip{background:var(--goldL);border-left:3px solid var(--gold)}
+.n-info{background:var(--tealL);border-left:3px solid var(--teal)}
+.n-warn{background:var(--roseL);border-left:3px solid var(--rose)}
+
+/* ======= LIFE GUIDE ======= */
+
+/* CATEGORY CARD */
+.cc{background:var(--card);border:1.5px solid var(--border);border-radius:14px;margin:10px 0;overflow:hidden;box-shadow:0 2px 8px rgba(46,31,16,.04)}
+.cch{display:flex;align-items:center;gap:10px;padding:13px 14px;cursor:pointer;user-select:none}
+.cc-badge{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.15rem;flex-shrink:0}
+.cch h3{flex:1;font-size:.95rem;font-weight:700}
+.cch h3 i{font-style:normal;font-family:'Caveat',cursive;font-weight:500;color:var(--ink3);font-size:.82rem}
+.cc-arrow{font-size:.7rem;color:var(--inkL);transition:transform .2s}
+.cc.o .cc-arrow{transform:rotate(180deg)}
+.ccb{display:none;padding:2px 14px 14px;border-top:1px solid var(--borderL)}
+.cc.o .ccb{display:block}
+
+/* PHRASE CARD */
+.pc{background:var(--bg);border-radius:10px;padding:10px 12px;margin:6px 0;border-left:3px solid var(--teal)}
+.pc-zh{font-size:.88rem;font-weight:700;color:var(--ink)}
+.pc-en{font-size:.8rem;color:var(--teal);margin-top:1px}
+.pc-cb{font-size:.85rem;color:var(--terra);font-weight:600;margin-top:3px;padding:3px 8px;background:var(--terraL);border-radius:6px;display:inline-block}
+.pc-pron{font-size:.72rem;color:var(--ink3);font-style:italic;margin-top:2px}
+.pc-note{font-size:.72rem;color:var(--ink3);margin-top:4px;padding:4px 8px;background:var(--card);border-radius:6px;border:1px dashed var(--border)}
+
+/* PHRASE TABLE */
+.ptbl{width:100%;border-collapse:separate;border-spacing:0;font-size:.82rem;margin:8px 0;border-radius:10px;overflow:hidden;border:1px solid var(--border)}
+.ptbl thead th{text-align:left;padding:8px 10px;background:var(--teal);color:#fff;font-size:.72rem;font-weight:700;letter-spacing:.3px}
+.ptbl td{padding:7px 10px;border-bottom:1px solid var(--borderL);background:var(--card)}
+.ptbl tr:last-child td{border-bottom:none}
+.ptbl tr:nth-child(even) td{background:var(--bg)}
+.ptbl .cb{color:var(--terra);font-weight:600}
+.ptbl .pron{color:var(--ink3);font-size:.72rem}
+
+/* FOOD GRID */
+.fg{display:grid;grid-template-columns:repeat(auto-fill,minmax(145px,1fr));gap:6px;margin:8px 0}
+.fg-item{background:var(--card);border-radius:10px;padding:10px 6px;text-align:center;border:1px solid var(--borderL);transition:transform .1s}
+.fg-item:active{transform:scale(.97)}
+.fg-item .emoji{font-size:1.5rem;line-height:1}
+.fg-item .zh{font-size:.85rem;font-weight:700;margin-top:3px}
+.fg-item .en{font-size:.72rem;color:var(--teal);font-weight:500}
+.fg-item .local{font-size:.72rem;color:var(--terra);font-weight:600}
+
+/* LIST ITEMS (for do/don't) */
+.do-list{margin:6px 0}
+.do-item{display:flex;gap:8px;padding:7px 0;border-bottom:1px solid var(--borderL);font-size:.82rem;align-items:flex-start}
+.do-item:last-child{border-bottom:none}
+.do-item .icon{font-size:1rem;flex-shrink:0;width:22px;text-align:center;margin-top:1px}
+.do-item .text{flex:1;line-height:1.5}
+.do-item .text b{font-weight:700}
+.do-item .text span{color:var(--ink3);font-size:.78rem}
+
+/* BOTTOM NAV */
+.bnav{position:fixed;bottom:0;left:0;right:0;display:flex;background:var(--card);border-top:2px solid var(--seafoam);padding:4px 0 calc(var(--sb) + 4px);z-index:200;box-shadow:0 -2px 12px rgba(46,125,140,.08)}
+.bnav button{flex:1;border:none;background:none;padding:6px 4px;cursor:pointer;font-family:inherit;color:var(--ink3);transition:.15s}
+.bnav button.on{color:var(--terra)}
+.bnav button .bi{font-size:1.2rem;display:block}
+.bnav button .bl{font-size:.66rem;font-weight:700;margin-top:1px;letter-spacing:.3px}
+
+/* BACK TOP */
+.btt{position:fixed;bottom:calc(var(--sb) + 72px);right:12px;width:36px;height:36px;border-radius:50%;background:var(--teal);color:#fff;border:none;font-size:.85rem;cursor:pointer;opacity:0;transition:.2s;z-index:150;box-shadow:0 3px 10px rgba(46,125,140,.3)}
+.btt.v{opacity:1}
+
+/* DIVIDER */
+.divider{text-align:center;margin:14px 0 8px;font-size:.72rem;font-weight:600;color:var(--inkL);letter-spacing:1px;position:relative}
+.divider::before,.divider::after{content:'';position:absolute;top:50%;width:50px;height:1px;background:var(--border)}
+.divider::before{right:calc(50% + 60px);background:var(--seafoam)}.divider::after{left:calc(50% + 60px);background:var(--seafoam)}
+
+/* FOOTER */
+.footer-box{text-align:center;margin:20px 0;padding:18px;background:linear-gradient(135deg,var(--oceanL) 0%,var(--card) 60%);border:1.5px dashed var(--seafoam);border-radius:14px}
+.footer-box .msg{font-family:'Caveat',cursive;font-size:1.4rem;color:var(--teal)}
+.footer-box .sub{font-size:.8rem;color:var(--ink3);margin-top:2px}
+
+/* SEARCH */
+.search-wrap{position:relative;margin:4px 0 12px}
+.search-wrap input{width:100%;padding:10px 14px 10px 38px;border:1.5px solid var(--border);border-radius:22px;background:var(--card);font-family:inherit;font-size:.85rem;color:var(--ink);outline:none;transition:border-color .15s}
+.search-wrap input:focus{border-color:var(--teal)}
+.search-wrap input::placeholder{color:var(--inkL)}
+.search-wrap::before{content:'🔍';position:absolute;left:12px;top:50%;transform:translateY(-50%);font-size:.82rem;opacity:.6}
+</style>
+</head>
+<body>
+
+<header class="hdr">
+<div class="hdr-logo">🌺 <b>CEBU</b> 宿霧札記</div>
+<div class="hdr-sub">Cebu · Bohol · Siquijor — 深度旅遊 & 生活指南</div>
+</header>
+<div class="wave-sep"><svg viewBox="0 0 1440 40" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path d="M0,20C180,35,360,5,540,20S900,35,1080,20S1380,5,1440,20L1440,40L0,40Z" fill="#FAF5ED"/></svg></div>
+
+<div class="tabs">
+<button class="tab on" onclick="sw(0)">🗺️ 探索宿霧<small>Area Explorer</small></button>
+<button class="tab" onclick="sw(1)">📖 生活指南<small>Cebu Life</small></button>
+</div>
+
+<!-- ═══════════════════════════════════ -->
+<!--  PANEL 0 : EXPLORE                 -->
+<!-- ═══════════════════════════════════ -->
+<div class="panel on" id="p0"><div class="ct">
+
+<!-- MAP IMAGE -->
+<div class="map-box">
+<img src="cebu_map.png" alt="Cebu Islands Hand-drawn Map" onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+<div class="map-placeholder" style="display:none"><div class="mp-icon">🗺️</div><p>放入 cebu_map.png<br>手繪地圖即顯示於此</p></div>
+</div>
+
+<!-- QUICK NAV -->
+<div class="chips">
+<a class="chip" href="#z1" onclick="openArea('z1')">🏛 宿霧市區</a>
+<a class="chip" href="#z2" onclick="openArea('z2')">🏝 麥克坦</a>
+<a class="chip" href="#z3" onclick="openArea('z3')">🌊 南部</a>
+<a class="chip" href="#z4" onclick="openArea('z4')">⛰ 薄荷島</a>
+<a class="chip" href="#z5" onclick="openArea('z5')">🧙 女巫島</a>
+<a class="chip" href="#z6" onclick="openArea('z6')">🎓 杜馬蓋地</a>
+<a class="chip" href="#z7" onclick="openArea('z7')">🦈 北部離島</a>
+</div>
+
+<!-- ═══ ZONE 1 : CEBU CITY ═══ -->
+<div class="ac o" id="z1" onclick="tg(this)">
+<div class="ach">
+<div class="a-badge" style="background:var(--terraL)">🏛️</div>
+<div class="a-info"><h3>宿霧市區 <i>Cebu City</i></h3><p><em>歷史古蹟</em><em>烤乳豬</em><em>夜市</em><em>山景</em></p></div>
+<span class="a-arrow">▼</span>
+</div>
+<div class="acb">
+<a class="mbtn" href="https://www.google.com/maps/place/Cebu+City" target="_blank" onclick="event.stopPropagation()">📍 開啟 Google 地圖</a>
+
+<div class="note n-info"><strong>📝 區域特色</strong>菲律賓最古老城市，450年殖民歷史。以烤乳豬 Lechon 聞名全球。住宿推薦 IT Park 或 Fuente Osmeña 附近。</div>
+
+<div class="sub-label">🏛️ 景點 Attractions</div>
+<div class="si"><div class="si-dot" style="background:var(--teal)"></div><div class="si-body"><div class="si-name">麥哲倫十字架 <i>Magellan's Cross</i></div><div class="si-desc">1521年麥哲倫插下的木十字架，菲律賓基督教起源地 · 免費</div><span class="tag tag-see">景點</span></div></div>
+<div class="si"><div class="si-dot" style="background:var(--teal)"></div><div class="si-body"><div class="si-name">聖嬰教堂 <i>Basilica del Santo Niño</i></div><div class="si-desc">菲律賓最古老教堂 (1565)，供奉聖嬰耶穌像 · 衣著端莊 · 免費</div><span class="tag tag-see">景點</span></div></div>
+<div class="si"><div class="si-dot" style="background:var(--teal)"></div><div class="si-body"><div class="si-name">聖佩德羅古堡 <i>Fort San Pedro</i></div><div class="si-desc">菲律賓最古老三角形西班牙堡壘 · ₱30</div><span class="tag tag-see">景點</span></div></div>
+<div class="si"><div class="si-dot" style="background:var(--teal)"></div><div class="si-body"><div class="si-name">利亞神殿 <i>Temple of Leah</i></div><div class="si-desc">仿羅馬神殿建築，俯瞰宿霧全市 · ₱50 · Grab 上山約 ₱150</div><span class="tag tag-see">景點</span></div></div>
+<div class="si"><div class="si-dot" style="background:var(--teal)"></div><div class="si-body"><div class="si-name">山頂觀景台 <i>Tops Lookout</i></div><div class="si-desc">360度宿霧全景 · 日落 Sunset 約 17:30–18:00 · ₱100</div><span class="tag tag-see">景點</span></div></div>
+<div class="si"><div class="si-dot" style="background:var(--teal)"></div><div class="si-body"><div class="si-name">道教廟 <i>Taoist Temple</i></div><div class="si-desc">Beverly Hills 區，宿霧華人信仰中心，建築精美 · 免費</div><span class="tag tag-see">景點</span></div></div>
+<div class="si"><div class="si-dot" style="background:var(--teal)"></div><div class="si-body"><div class="si-name">碳市場 <i>Carbon Market</i></div><div class="si-desc">宿霧最大最老傳統市場 · 芒果 Mango ₱50–80/kg · ⚠️ 注意隨身物品</div><span class="tag tag-do">探索</span></div></div>
+
+<div class="sub-label">🍽️ 必吃美食 Must Eat</div>
+<div class="si"><div class="si-dot" style="background:var(--terra)"></div><div class="si-body"><div class="si-name">CnT Lechon <i>烤乳豬</i></div><div class="si-desc">Gorordo Ave · 全亞洲最好吃烤豬！外皮如玻璃般酥脆 · ₱200–350/kg</div><span class="tag tag-eat">必吃</span></div></div>
+<div class="si"><div class="si-dot" style="background:var(--terra)"></div><div class="si-body"><div class="si-name">Zubuchon <i>烤乳豬</i></div><div class="si-desc">Anthony Bourdain 認證 · 試 Lechon Belly 和 Ngohiong 春捲 · ₱300–500/人</div><span class="tag tag-eat">必吃</span></div></div>
+<div class="si"><div class="si-dot" style="background:var(--terra)"></div><div class="si-body"><div class="si-name">Larsian BBQ <i>燒烤一條街</i></div><div class="si-desc">Fuente Osmeña 旁 · 烤豬腸 Chorizo + 烤雞翅 · ₱100–200/人</div><span class="tag tag-eat">在地味</span></div></div>
+<div class="si"><div class="si-dot" style="background:var(--terra)"></div><div class="si-body"><div class="si-name">Sugbo Mercado <i>夜市</i></div><div class="si-desc">Salinas Drive · 週四至日 · 50+ 攤位 · 烤海鮮、Buko Shake · ₱150–400/人</div><span class="tag tag-eat">美食</span></div></div>
+<div class="si"><div class="si-dot" style="background:var(--terra)"></div><div class="si-body"><div class="si-name">Pungko-Pungko <i>蹲食早餐</i></div><div class="si-desc">Pasil Market · 早上 6–9 點限定！蹲著吃炸豬皮 Chicharon + 白飯 · ₱30–80</div><span class="tag tag-eat">在地體驗</span></div></div>
+</div></div>
+
+<!-- ═══ ZONE 2 : MACTAN ═══ -->
+<div class="ac" id="z2" onclick="tg(this)">
+<div class="ach">
+<div class="a-badge" style="background:var(--tealL)">🏝️</div>
+<div class="a-info"><h3>麥克坦島 <i>Mactan Island</i></h3><p><em>跳島浮潛</em><em>海鮮</em><em>手工吉他</em></p></div>
+<span class="a-arrow">▼</span>
+</div>
+<div class="acb">
+<a class="mbtn" href="https://www.google.com/maps/place/Mactan+Island" target="_blank" onclick="event.stopPropagation()">📍 開啟 Google 地圖</a>
+<div class="sub-label">🏛️ 景點 · 活動</div>
+<div class="si"><div class="si-dot" style="background:var(--teal)"></div><div class="si-body"><div class="si-name">拉普拉普紀念碑 <i>Lapu-Lapu Shrine</i></div><div class="si-desc">菲律賓抗殖民英雄紀念碑 · 旁邊有麥哲倫紀念碑 · 免費</div><span class="tag tag-see">景點</span></div></div>
+<div class="si"><div class="si-dot" style="background:var(--olive)"></div><div class="si-body"><div class="si-name">跳島浮潛 <i>Island Hopping</i></div><div class="si-desc">Hilutungan + Nalusuan Island · ₱800–1,500/人 · 含裝備+午餐 · 5–6hr</div><span class="tag tag-do">活動</span></div></div>
+<div class="si"><div class="si-dot" style="background:var(--teal)"></div><div class="si-body"><div class="si-name">吉他工廠 <i>Guitar Factory</i></div><div class="si-desc">Mactan 手工吉他 Gitara 聞名世界 · 烏克麗麗 Ukulele ₱500–1,500</div><span class="tag tag-see">購物</span></div></div>
+<div class="sub-label">🍽️ 美食 Food</div>
+<div class="si"><div class="si-dot" style="background:var(--terra)"></div><div class="si-body"><div class="si-name">海鮮城 <i>Isla Sugbu Seafood City</i></div><div class="si-desc">SuTuKil 自選活海鮮 → Sugba 烤 / Tula 湯 / Kilaw 生醃 · 螃蟹 Alimango 推薦！₱400–800/人</div><span class="tag tag-eat">必吃</span></div></div>
+</div></div>
+
+<!-- ═══ ZONE 3 : SOUTH CEBU ═══ -->
+<div class="ac" id="z3" onclick="tg(this)">
+<div class="ach">
+<div class="a-badge" style="background:var(--oliveL)">🌊</div>
+<div class="a-info"><h3>宿霧南部 <i>South Cebu</i></h3><p><em>鯨鯊共游</em><em>峽谷漂流</em><em>沙丁魚風暴</em><em>最高峰日出</em></p></div>
+<span class="a-arrow">▼</span>
+</div>
+<div class="acb">
+<a class="mbtn" href="https://www.google.com/maps/dir/Cebu+City/Oslob/Moalboal" target="_blank" onclick="event.stopPropagation()">📍 南部路線地圖</a>
+<div class="note n-tip"><strong>💡 交通</strong>South Bus Terminal 搭 Ceres Bus 南下。建議以 Moalboal 為基地住 5–7 晚慢遊，Panagsama Beach 附近最方便。</div>
+
+<div class="sub-label">🦈 Oslob 歐斯陸</div>
+<div class="si"><div class="si-dot" style="background:var(--rose)"></div><div class="si-body"><div class="si-name">鯨鯊共游 <i>Whale Shark Watching</i></div><div class="si-desc">Tan-awan · 浮潛 Snorkeling ₱1,000 · 30分鐘近距離共游 · ⚠️ 禁防曬乳！水下相機必帶</div><span class="tag tag-must">必做</span></div></div>
+<div class="si"><div class="si-dot" style="background:var(--teal)"></div><div class="si-body"><div class="si-name">絲緞瀑布 <i>Tumalog Falls</i></div><div class="si-desc">距 Oslob 10分鐘 · 水流如白色絲綢落下 · ₱30</div><span class="tag tag-see">景點</span></div></div>
+<div class="si"><div class="si-dot" style="background:var(--teal)"></div><div class="si-body"><div class="si-name">蘇米龍島沙洲 <i>Sumilon Island</i></div><div class="si-desc">白色沙洲 Sandbar · 包船 ₱1,500–3,000 · 漲潮時最美</div><span class="tag tag-see">景點</span></div></div>
+
+<div class="sub-label">🏞️ Kawasan 峽谷</div>
+<div class="si"><div class="si-dot" style="background:var(--rose)"></div><div class="si-body"><div class="si-name">峽谷漂流 <i>Canyoneering</i></div><div class="si-desc">全長6km · 4–5hr · ₱1,500–2,000/人 · 懸崖跳水 Cliff Jump (3/5/10m)、岩石滑水道 · 帶防水袋 Dry Bag！</div><span class="tag tag-must">必做</span></div></div>
+<div class="si"><div class="si-dot" style="background:var(--teal)"></div><div class="si-body"><div class="si-name">卡哇山瀑布 <i>Kawasan Falls</i></div><div class="si-desc">三層瀑布群 · 土耳其藍清澈見底 · 竹筏 Bamboo Raft ₱150 · 入場 ₱50</div><span class="tag tag-see">景點</span></div></div>
+
+<div class="sub-label">🐟 Moalboal 莫阿爾博阿爾</div>
+<div class="si"><div class="si-dot" style="background:var(--rose)"></div><div class="si-body"><div class="si-name">沙丁魚風暴 <i>Sardine Run</i></div><div class="si-desc">Panagsama Beach 直接下水！岸邊 10m 就能看到魚群如銀色龍捲風 · 全年可見 · 免費</div><span class="tag tag-must">必做</span></div></div>
+<div class="si"><div class="si-dot" style="background:var(--olive)"></div><div class="si-body"><div class="si-name">海龜共游 <i>Turtle Watching</i></div><div class="si-desc">同海域 · 海龜 Pawikan 出沒率極高 · 保持距離勿觸摸 · 導覽 ₱300–500</div><span class="tag tag-do">活動</span></div></div>
+<div class="si"><div class="si-dot" style="background:var(--olive)"></div><div class="si-body"><div class="si-name">奧斯梅尼亞峰 <i>Osmeña Peak</i></div><div class="si-desc">宿霧最高峰 (1,013m) · 凌晨出發看日出雲海 · ₱30 · 帶外套 Jacket</div><span class="tag tag-do">活動</span></div></div>
+<div class="si"><div class="si-dot" style="background:var(--olive)"></div><div class="si-body"><div class="si-name">佩斯卡多爾島 <i>Pescador Island</i></div><div class="si-desc">包船 ₱500–800/人 · 珊瑚礁 Coral Reef · 海蛇 · 小丑魚 Clownfish</div><span class="tag tag-do">活動</span></div></div>
+</div></div>
+
+<!-- ═══ ZONE 4 : BOHOL ═══ -->
+<div class="ac" id="z4" onclick="tg(this)">
+<div class="ach">
+<div class="a-badge" style="background:var(--goldL)">⛰️</div>
+<div class="a-info"><h3>薄荷島 <i>Bohol & Panglao</i></h3><p><em>巧克力山</em><em>眼鏡猴</em><em>世界級潛點</em><em>Anda秘境</em></p></div>
+<span class="a-arrow">▼</span>
+</div>
+<div class="acb">
+<a class="mbtn" href="https://www.google.com/maps/place/Bohol" target="_blank" onclick="event.stopPropagation()">📍 開啟 Google 地圖</a>
+<div class="note n-info"><strong>🚢 交通</strong>宿霧 Pier 1 搭 OceanJet 快船 Ferry 到 Tagbilaran（2hr · ₱400–700）· 住 Panglao 的 Alona Beach 最方便</div>
+
+<div class="sub-label">⭐ 必看景點 Must See</div>
+<div class="si"><div class="si-dot" style="background:var(--rose)"></div><div class="si-body"><div class="si-name">眼鏡猴保護區 <i>Tarsier Sanctuary</i></div><div class="si-desc">世界最小靈長類 Primate（10cm）· ₱60 · ⚠️ 禁閃光燈！禁觸摸！禁大聲！</div><span class="tag tag-must">必看</span></div></div>
+<div class="si"><div class="si-dot" style="background:var(--rose)"></div><div class="si-body"><div class="si-name">巧克力山 <i>Chocolate Hills</i></div><div class="si-desc">Carmen · 1,268座圓錐山丘 · 旱季轉棕色像巧克力 · 214階梯觀景台 · ₱50</div><span class="tag tag-must">必看</span></div></div>
+<div class="si"><div class="si-dot" style="background:var(--teal)"></div><div class="si-body"><div class="si-name">遊船午餐 <i>Loboc River Cruise</i></div><div class="si-desc">₱700–950/人 · 含自助午餐 Buffet + 民俗歌舞 · 兩岸椰林超美</div><span class="tag tag-eat">美食+活動</span></div></div>
+<div class="si"><div class="si-dot" style="background:var(--teal)"></div><div class="si-body"><div class="si-name">巴克拉揚教堂 <i>Baclayon Church</i></div><div class="si-desc">菲律賓最古老石造教堂之一 (1595) · 免費 · 博物館 Museum ₱50</div><span class="tag tag-see">景點</span></div></div>
+
+<div class="sub-label">🌊 海洋活動 Ocean</div>
+<div class="si"><div class="si-dot" style="background:var(--olive)"></div><div class="si-body"><div class="si-name">海豚追蹤 <i>Dolphin Watching</i></div><div class="si-desc">Alona Beach 清晨出發 · 成群海豚跳躍！包船含行程約 ₱1,500–2,500</div><span class="tag tag-do">活動</span></div></div>
+<div class="si"><div class="si-dot" style="background:var(--rose)"></div><div class="si-body"><div class="si-name">巴里卡薩島 <i>Balicasag Island</i></div><div class="si-desc">世界級潛點！海龜 100% 出沒 · 大斷層珊瑚礁 · 浮潛 ₱300–500 · 深潛 ₱2,000</div><span class="tag tag-must">必做</span></div></div>
+<div class="si"><div class="si-dot" style="background:var(--teal)"></div><div class="si-body"><div class="si-name">處女島沙洲 <i>Virgin Island</i></div><div class="si-desc">退潮限定夢幻白沙洲！向漁民買新鮮海膽 Sea Urchin 現吃 ₱20/顆</div><span class="tag tag-see">景點</span></div></div>
+
+<div class="sub-label">🌿 深度慢遊 Slow Travel</div>
+<div class="si"><div class="si-dot" style="background:var(--plum)"></div><div class="si-body"><div class="si-name">安達秘境 <i>Anda · 東海岸</i></div><div class="si-desc">超人少白沙灘！Quinale Beach · Cabagnow Cave Pool 洞穴游泳 ₱25 · 菲律賓版馬爾地夫</div><span class="tag tag-see">秘境</span></div></div>
+<div class="si"><div class="si-dot" style="background:var(--teal)"></div><div class="si-body"><div class="si-name">鐘乳石洞穴 <i>Hinagdanan Cave</i></div><div class="si-desc">Panglao · 可游泳的鐘乳石洞穴 · ₱50</div><span class="tag tag-see">景點</span></div></div>
+<div class="si"><div class="si-dot" style="background:var(--terra)"></div><div class="si-body"><div class="si-name">蜜蜂農場 <i>Bohol Bee Farm</i></div><div class="si-desc">有機農場午餐 · 蜂蜜冰淇淋 Honey Ice Cream 必吃！₱300–500/人</div><span class="tag tag-eat">美食</span></div></div>
+</div></div>
+
+<!-- ═══ ZONE 5 : SIQUIJOR ═══ -->
+<div class="ac" id="z5" onclick="tg(this)">
+<div class="ach">
+<div class="a-badge" style="background:var(--plumL)">🧙</div>
+<div class="a-info"><h3>女巫島 <i>Siquijor</i></h3><p><em>神秘療癒</em><em>牛奶藍瀑布</em><em>環島騎行</em></p></div>
+<span class="a-arrow">▼</span>
+</div>
+<div class="acb">
+<a class="mbtn" href="https://www.google.com/maps/place/Siquijor" target="_blank" onclick="event.stopPropagation()">📍 開啟 Google 地圖</a>
+<div class="note n-tip"><strong>🏍️ 環島</strong>租摩托車 Motorbike ₱300–400/天 · 環島一圈約 72km · 需國際駕照 IDP · 住 San Juan 區域最方便</div>
+<div class="si"><div class="si-dot" style="background:var(--rose)"></div><div class="si-body"><div class="si-name">牛奶藍瀑布 <i>Cambugahay Falls</i></div><div class="si-desc">三層瀑布可跳水 · 繩索鞦韆 Rope Swing 拍照 · 免費 · 必去！</div><span class="tag tag-must">必做</span></div></div>
+<div class="si"><div class="si-dot" style="background:var(--teal)"></div><div class="si-body"><div class="si-name">百年老榕樹 <i>Old Enchanted Balete Tree</i></div><div class="si-desc">超大榕樹 Banyan Tree · 魚療池 Fish Spa ₱10 · 「女巫島」象徵景點</div><span class="tag tag-see">景點</span></div></div>
+<div class="si"><div class="si-dot" style="background:var(--olive)"></div><div class="si-body"><div class="si-name">跳崖聖地 <i>Salagdoong Beach</i></div><div class="si-desc">Maria · ₱30 · 10m+ 高台跳入清澈海水！</div><span class="tag tag-do">活動</span></div></div>
+<div class="si"><div class="si-dot" style="background:var(--teal)"></div><div class="si-body"><div class="si-name">帕利頓日落灘 <i>Paliton Beach</i></div><div class="si-desc">Siquijor 最美日落 · 椰林 Palm Trees + 白沙 + 金色夕陽 · 免費</div><span class="tag tag-see">景點</span></div></div>
+<div class="si"><div class="si-dot" style="background:var(--plum)"></div><div class="si-body"><div class="si-name">傳統治療師 <i>Mananambal</i></div><div class="si-desc">可預約體驗傳統草藥 Herbal 治療 · 當地人口碑推薦</div><span class="tag tag-do">文化體驗</span></div></div>
+<div class="si"><div class="si-dot" style="background:var(--olive)"></div><div class="si-body"><div class="si-name">海洋保護區 <i>Tubod Marine Sanctuary</i></div><div class="si-desc">浮潛 ₱100 · 海龜常見 · 珊瑚保育區</div><span class="tag tag-do">活動</span></div></div>
+</div></div>
+
+<!-- ═══ ZONE 6 : DUMAGUETE ═══ -->
+<div class="ac" id="z6" onclick="tg(this)">
+<div class="ach">
+<div class="a-badge" style="background:var(--plumL)">🎓</div>
+<div class="a-info"><h3>杜馬蓋地 <i>Dumaguete</i></h3><p><em>大學城</em><em>Apo Island 海龜</em><em>Silvanas 甜點</em></p></div>
+<span class="a-arrow">▼</span>
+</div>
+<div class="acb">
+<a class="mbtn" href="https://www.google.com/maps/place/Dumaguete" target="_blank" onclick="event.stopPropagation()">📍 開啟 Google 地圖</a>
+<div class="si"><div class="si-dot" style="background:var(--teal)"></div><div class="si-body"><div class="si-name">海濱大道 <i>Rizal Boulevard</i></div><div class="si-desc">Dumaguete 地標 · 海邊散步 + 在地小吃 · 大學城年輕活力氣氛</div><span class="tag tag-see">景點</span></div></div>
+<div class="si"><div class="si-dot" style="background:var(--rose)"></div><div class="si-body"><div class="si-name">阿波島海龜 <i>Apo Island</i></div><div class="si-desc">全菲最佳海龜點！一次看 10+ 隻！包船 ₱3,500–4,000（可分攤 4–6 人）</div><span class="tag tag-must">必做</span></div></div>
+<div class="si"><div class="si-dot" style="background:var(--terra)"></div><div class="si-body"><div class="si-name">Silvanas 甜點 <i>Sans Rival Bistro</i></div><div class="si-desc">Dumaguete 招牌！奶油夾心餅 · ₱200–400/盒 · 必買伴手禮 Pasalubong</div><span class="tag tag-eat">必買</span></div></div>
+<div class="si"><div class="si-dot" style="background:var(--teal)"></div><div class="si-body"><div class="si-name">西利曼大學 <i>Silliman University</i></div><div class="si-desc">校園散步 · 周邊平價美食天堂 · 每餐 ₱80–150</div><span class="tag tag-see">景點</span></div></div>
+</div></div>
+
+<!-- ═══ ZONE 7 : NORTH ═══ -->
+<div class="ac" id="z7" onclick="tg(this)">
+<div class="ach">
+<div class="a-badge" style="background:var(--roseL)">🦈</div>
+<div class="a-info"><h3>北部離島 <i>North Islands</i></h3><p><em>Bantayan 白沙</em><em>長尾鯊</em><em>Camotes 秘境</em></p></div>
+<span class="a-arrow">▼</span>
+</div>
+<div class="acb">
+<a class="mbtn" href="https://www.google.com/maps/search/Bantayan+Malapascua+Cebu" target="_blank" onclick="event.stopPropagation()">📍 北部島嶼地圖</a>
+
+<div class="sub-label">🏖️ Bantayan 班塔延島</div>
+<div class="si"><div class="si-dot" style="background:var(--teal)"></div><div class="si-body"><div class="si-name">糖沙灘 <i>Sugar Beach</i></div><div class="si-desc">Bantayan 最美！純白細沙 White Sand 無商業化 · 適合長時間放空</div><span class="tag tag-see">景點</span></div></div>
+<div class="si"><div class="si-dot" style="background:var(--teal)"></div><div class="si-body"><div class="si-name">天然洞穴泳池 <i>Ogtong Cave</i></div><div class="si-desc">天然地底游泳池 · ₱100 · 清涼消暑</div><span class="tag tag-see">景點</span></div></div>
+<div class="si"><div class="si-dot" style="background:var(--terra)"></div><div class="si-body"><div class="si-name">漁市代煮 <i>Fish Market Cook</i></div><div class="si-desc">早 5 點市場 Palengke 買海鮮 → 請餐廳代煮 · 螃蟹+蝦+魚 一餐 ₱200！</div><span class="tag tag-eat">必吃</span></div></div>
+
+<div class="sub-label">🦈 Malapascua 馬拉帕斯卡</div>
+<div class="si"><div class="si-dot" style="background:var(--rose)"></div><div class="si-body"><div class="si-name">長尾鯊潛水 <i>Thresher Shark Diving</i></div><div class="si-desc">Monad Shoal · 全球唯一每天能看到長尾鯊的地方！95–98% 目擊率 · ₱6,000/2dives</div><span class="tag tag-must">必做</span></div></div>
+<div class="si"><div class="si-dot" style="background:var(--olive)"></div><div class="si-body"><div class="si-name">洞穴潛水 <i>Gato Island</i></div><div class="si-desc">白鰭鯊 Whitetip · 海蛇 Sea Snake · 海馬 Seahorse · 洞穴穿越 · ₱3,000–4,000</div><span class="tag tag-do">活動</span></div></div>
+<div class="si"><div class="si-dot" style="background:var(--teal)"></div><div class="si-body"><div class="si-name">賞金海灘 <i>Bounty Beach</i></div><div class="si-desc">Malapascua 主要白沙灘 · 無車島嶼 · 純粹慢活 Slow Life</div><span class="tag tag-see">景點</span></div></div>
+
+<div class="sub-label">🏝️ Camotes 卡莫特斯群島</div>
+<div class="si"><div class="si-dot" style="background:var(--plum)"></div><div class="si-body"><div class="si-name">被遺忘的秘境 <i>Camotes Islands</i></div><div class="si-desc">Santiago Bay 碧藍海灣 · Timubo Cave 洞穴泳池 ₱20 · Lake Danao 淡水湖</div><span class="tag tag-see">秘境</span></div></div>
+<div class="note n-warn"><strong>⚠️ 注意</strong>Camotes ATM 不穩定，備足現金 Cash！從 Danao Port 搭快艇 2hr · ₱350–500</div>
+</div></div>
+
+<div class="footer-box">
+<div class="msg">🌺 Maayong pagdiskobreha!</div>
+<div class="sub">祝你探索愉快！Happy Exploring!</div>
+</div>
+
+</div></div>
+
+<!-- ═══════════════════════════════════ -->
+<!--  PANEL 1 : LIFE GUIDE              -->
+<!-- ═══════════════════════════════════ -->
+<div class="panel" id="p1"><div class="ct">
+
+<div class="sh"><div class="sh-icon" style="background:var(--goldL)">📖</div><h2>CEBU 生活指南<span>Life Guide</span></h2></div>
+
+<div class="search-wrap"><input type="text" id="ls" placeholder="搜尋用語 Search phrases..." oninput="filterLife(this.value)"></div>
+
+<!-- ═══ GRAB ═══ -->
+<div class="cc o lc" onclick="tgc(this)">
+<div class="cch"><div class="cc-badge" style="background:var(--oliveL)">🚕</div><h3>Grab 叫車常用語 <i>Ride-hailing</i></h3><span class="cc-arrow">▼</span></div>
+<div class="ccb">
+<div class="note n-tip"><strong>💡 使用技巧</strong>下載 GrabPH App · 可用 GCash 或現金 Cash · 上車前確認車牌 Plate Number · 宿霧市區方便，離島幾乎無 Grab</div>
+
+<div class="pc"><div class="pc-zh">📱 等車時傳訊息</div><div class="pc-en">"I'm at [location]. Where are you?"</div><div class="pc-cb">我在 [地點]，你在哪裡？</div></div>
+<div class="pc"><div class="pc-zh">🏢 請等一下，我馬上下樓</div><div class="pc-en">"Please wait, I'm coming down now."</div></div>
+<div class="pc"><div class="pc-zh">❄️ 可以開冷氣嗎？</div><div class="pc-en">"Can you turn on the aircon, please?"</div><div class="pc-cb">Kuya, pwede pa-aircon?</div></div>
+<div class="pc"><div class="pc-zh">📍 請在這裡停車</div><div class="pc-en">"Please drop me here." / "Can you stop here?"</div><div class="pc-cb">Dinhi lang, Kuya.</div><div class="pc-pron">滴-尼 朗，哭呀</div></div>
+<div class="pc"><div class="pc-zh">💰 車資多少？</div><div class="pc-en">"How much is the fare?"</div><div class="pc-cb">Pila ang pamasahe?</div></div>
+<div class="pc"><div class="pc-zh">🙏 謝謝，不用找了</div><div class="pc-en">"Thank you, keep the change."</div><div class="pc-cb">Salamat, Kuya. Imo na ang sukli.</div></div>
+
+<div class="note n-info"><strong>🛺 三輪車 / 摩托車 Tricycle / Habal-habal</strong>
+沒有 Grab 的地方用這些，上車前一定要先議價！<br>
+<b>Kuya, pahatod sa [地點]</b> = 大哥，載我去 [地點]<br>
+<b>Hinay-hinay lang</b> = 慢一點（摩托車太快時）<br>
+<b>Duol na</b> = 快到了<br>
+<b>Para!</b> = 停車！（Jeepney 下車喊這個）</div>
+</div></div>
+
+<!-- ═══ 日常問候 ═══ -->
+<div class="cc lc" onclick="tgc(this)">
+<div class="cch"><div class="cc-badge" style="background:var(--tealL)">👋</div><h3>日常問候 <i>Daily Greetings</i></h3><span class="cc-arrow">▼</span></div>
+<div class="ccb">
+<table class="ptbl">
+<thead><tr><th>中文</th><th>Cebuano 宿霧語</th><th>發音提示</th></tr></thead>
+<tbody>
+<tr><td>早安</td><td class="cb">Maayong buntag!</td><td class="pron">馬阿用 蹦搭</td></tr>
+<tr><td>午安</td><td class="cb">Maayong hapon!</td><td class="pron">馬阿用 哈朋</td></tr>
+<tr><td>晚安</td><td class="cb">Maayong gabii!</td><td class="pron">馬阿用 嘎逼</td></tr>
+<tr><td>你好嗎？</td><td class="cb">Kumusta ka?</td><td class="pron">哭穆斯打 卡</td></tr>
+<tr><td>我很好</td><td class="cb">Maayo man, salamat.</td><td class="pron">馬阿用 曼</td></tr>
+<tr><td>謝謝</td><td class="cb">Salamat!</td><td class="pron">撒拉嘛</td></tr>
+<tr><td>非常感謝</td><td class="cb">Salamat kaayo!</td><td class="pron">撒拉嘛 卡阿用</td></tr>
+<tr><td>不客氣</td><td class="cb">Way sapayan.</td><td class="pron">歪 撒巴岩</td></tr>
+<tr><td>請</td><td class="cb">Palihog</td><td class="pron">巴里猴</td></tr>
+<tr><td>是 / 不是</td><td class="cb">Oo / Dili</td><td class="pron">嗚嗚 / 滴力</td></tr>
+<tr><td>對不起</td><td class="cb">Pasayloa ko.</td><td class="pron">巴撒以落阿</td></tr>
+<tr><td>再見</td><td class="cb">Babay!</td><td class="pron">巴拜</td></tr>
+<tr><td>你叫什麼名字？</td><td class="cb">Unsa imong ngalan?</td><td class="pron">溫撒 以夢 阿蘭</td></tr>
+<tr><td>我的名字是…</td><td class="cb">Ako si…</td><td class="pron">阿口 洗…</td></tr>
+</tbody></table>
+
+<div class="note n-tip"><strong>💡 稱呼文化</strong>
+<b>Kuya</b>（哥哥）= 對男性的尊稱　<b>Ate</b>（阿嘚）= 對女性的尊稱<br>
+<b>Po / Opo</b> = 句尾加上表示尊敬，相當於「您」<br>
+菲律賓人非常友善！多微笑打招呼會得到很棒的回應 😊</div>
+</div></div>
+
+<!-- ═══ 購物殺價 ═══ -->
+<div class="cc lc" onclick="tgc(this)">
+<div class="cch"><div class="cc-badge" style="background:var(--goldL)">🛒</div><h3>購物殺價 <i>Shopping</i></h3><span class="cc-arrow">▼</span></div>
+<div class="ccb">
+<div class="pc"><div class="pc-zh">💰 這個多少錢？</div><div class="pc-en">"How much is this?"</div><div class="pc-cb">Tag-pila ni? / Pila ni?</div></div>
+<div class="pc"><div class="pc-zh">😱 太貴了！</div><div class="pc-en">"That's too expensive!"</div><div class="pc-cb">Mahal kaayo!</div></div>
+<div class="pc"><div class="pc-zh">💸 可以便宜一點嗎？</div><div class="pc-en">"Can you give a discount?"</div><div class="pc-cb">Pwede ba mubarato?</div></div>
+<div class="pc"><div class="pc-zh">🤝 買兩個算便宜？</div><div class="pc-en">"What if I buy two?"</div><div class="pc-cb">Kung duha akong paliton?</div></div>
+<div class="pc"><div class="pc-zh">🔍 我只是看看</div><div class="pc-en">"I'm just looking."</div><div class="pc-cb">Nagtan-aw lang ko.</div></div>
+<div class="pc"><div class="pc-zh">✅ 好，我要這個</div><div class="pc-en">"OK, I'll take this one."</div><div class="pc-cb">Sige, kuhaon nako ni.</div></div>
+<div class="pc"><div class="pc-zh">💳 可以刷卡嗎？</div><div class="pc-en">"Can I pay by card?"</div><div class="pc-note">大商場 Mall 可以，傳統市場只收現金 Cash · GCash 越來越普及</div></div>
+
+<div class="note n-tip"><strong>🏷️ 殺價技巧 Bargaining Tips</strong>
+1. 傳統市場 Carbon Market、紀念品攤 → 可以殺價<br>
+2. 商場 SM / Ayala → 不能殺價（標價制）<br>
+3. 先開 60–70% 的價格，慢慢往上談<br>
+4. 保持微笑 Smile 和禮貌，不要太過分<br>
+5. 假裝要走 Walking Away 通常能拿到好價格<br>
+6. 買多有折扣 → 直接問「Bulk discount?」</div>
+</div></div>
+
+<!-- ═══ 餐廳點餐 ═══ -->
+<div class="cc lc" onclick="tgc(this)">
+<div class="cch"><div class="cc-badge" style="background:var(--terraL)">🍽️</div><h3>餐廳點餐 <i>Restaurant</i></h3><span class="cc-arrow">▼</span></div>
+<div class="ccb">
+<div class="pc"><div class="pc-zh">📋 可以看菜單嗎？</div><div class="pc-en">"Can I see the menu, please?"</div></div>
+<div class="pc"><div class="pc-zh">⭐ 推薦什麼？</div><div class="pc-en">"What do you recommend?"</div><div class="pc-cb">Unsa imong i-recommend?</div></div>
+<div class="pc"><div class="pc-zh">🍚 一份白飯 / 加飯</div><div class="pc-en">"One rice, please." / "Extra rice."</div><div class="pc-cb">Usa ka kanin. / Extra rice palihog.</div></div>
+<div class="pc"><div class="pc-zh">💧 請給我水</div><div class="pc-en">"Water, please."</div><div class="pc-cb">Tubig palihog.</div><div class="pc-note">Service Water 通常免費 · 瓶裝水 Bottled Water 需另外點</div></div>
+<div class="pc"><div class="pc-zh">🌶️ 不要辣</div><div class="pc-en">"Not spicy, please."</div></div>
+<div class="pc"><div class="pc-zh">😋 超好吃！</div><div class="pc-en">"Very delicious!"</div><div class="pc-cb">Lami kaayo!</div><div class="pc-pron">拉咪 卡阿用</div></div>
+<div class="pc"><div class="pc-zh">💰 買單</div><div class="pc-en">"Bill, please."</div><div class="pc-cb">Pabayad palihog.</div></div>
+
+<div class="divider">食物詞彙 Food Vocabulary</div>
+<div class="fg">
+<div class="fg-item"><div class="emoji">🐷</div><div class="zh">豬肉</div><div class="en">Pork</div><div class="local">Baboy</div></div>
+<div class="fg-item"><div class="emoji">🐔</div><div class="zh">雞肉</div><div class="en">Chicken</div><div class="local">Manok</div></div>
+<div class="fg-item"><div class="emoji">🐟</div><div class="zh">魚</div><div class="en">Fish</div><div class="local">Isda</div></div>
+<div class="fg-item"><div class="emoji">🦐</div><div class="zh">蝦</div><div class="en">Shrimp</div><div class="local">Pasayan</div></div>
+<div class="fg-item"><div class="emoji">🦀</div><div class="zh">螃蟹</div><div class="en">Crab</div><div class="local">Alimango</div></div>
+<div class="fg-item"><div class="emoji">🦑</div><div class="zh">花枝</div><div class="en">Squid</div><div class="local">Nukos</div></div>
+<div class="fg-item"><div class="emoji">🍚</div><div class="zh">白飯</div><div class="en">Rice</div><div class="local">Kanin</div></div>
+<div class="fg-item"><div class="emoji">🥚</div><div class="zh">蛋</div><div class="en">Egg</div><div class="local">Itlog</div></div>
+<div class="fg-item"><div class="emoji">🥬</div><div class="zh">蔬菜</div><div class="en">Vegetables</div><div class="local">Gulay</div></div>
+<div class="fg-item"><div class="emoji">🥭</div><div class="zh">芒果</div><div class="en">Mango</div><div class="local">Mangga</div></div>
+<div class="fg-item"><div class="emoji">🥥</div><div class="zh">椰子</div><div class="en">Coconut</div><div class="local">Buko</div></div>
+<div class="fg-item"><div class="emoji">💧</div><div class="zh">水</div><div class="en">Water</div><div class="local">Tubig</div></div>
+<div class="fg-item"><div class="emoji">🍺</div><div class="zh">啤酒</div><div class="en">Beer</div><div class="local">Serbesa</div></div>
+<div class="fg-item"><div class="emoji">☕</div><div class="zh">咖啡</div><div class="en">Coffee</div><div class="local">Kape</div></div>
+</div>
+
+<div class="divider">必認識菜名 Must-Know Dishes</div>
+<div class="fg">
+<div class="fg-item"><div class="emoji">🐷</div><div class="zh">烤乳豬</div><div class="en">Lechon</div><div class="local">宿霧代表菜！</div></div>
+<div class="fg-item"><div class="emoji">🍲</div><div class="zh">醬油醋燉肉</div><div class="en">Adobo</div><div class="local">菲律賓國菜</div></div>
+<div class="fg-item"><div class="emoji">🍋</div><div class="zh">酸湯</div><div class="en">Sinigang</div><div class="local">羅望子酸湯</div></div>
+<div class="fg-item"><div class="emoji">🐟</div><div class="zh">生醃海鮮</div><div class="en">Kinilaw</div><div class="local">菲式 Ceviche</div></div>
+<div class="fg-item"><div class="emoji">🥟</div><div class="zh">春捲</div><div class="en">Lumpia</div><div class="local">炸/鮮兩種</div></div>
+<div class="fg-item"><div class="emoji">🍧</div><div class="zh">菲式剉冰</div><div class="en">Halo-halo</div><div class="local">消暑聖品！</div></div>
+<div class="fg-item"><div class="emoji">🥘</div><div class="zh">鐵板豬臉</div><div class="en">Sisig</div><div class="local">配啤酒絕配</div></div>
+<div class="fg-item"><div class="emoji">🥟</div><div class="zh">宿霧春捲</div><div class="en">Ngohiong</div><div class="local">五香粉春捲</div></div>
+</div>
+</div></div>
+
+<!-- ═══ 數字金錢 ═══ -->
+<div class="cc lc" onclick="tgc(this)">
+<div class="cch"><div class="cc-badge" style="background:var(--roseL)">🔢</div><h3>數字 & 金錢 <i>Numbers & Money</i></h3><span class="cc-arrow">▼</span></div>
+<div class="ccb">
+<table class="ptbl">
+<thead><tr><th>數字</th><th>Cebuano</th><th>數字</th><th>Cebuano</th></tr></thead>
+<tbody>
+<tr><td>1</td><td class="cb">Usa</td><td>6</td><td class="cb">Unom</td></tr>
+<tr><td>2</td><td class="cb">Duha</td><td>7</td><td class="cb">Pito</td></tr>
+<tr><td>3</td><td class="cb">Tulo</td><td>8</td><td class="cb">Walo</td></tr>
+<tr><td>4</td><td class="cb">Upat</td><td>9</td><td class="cb">Siyam</td></tr>
+<tr><td>5</td><td class="cb">Lima</td><td>10</td><td class="cb">Napulo</td></tr>
+<tr><td>20</td><td class="cb">Baynte</td><td>50</td><td class="cb">Singkwenta</td></tr>
+<tr><td>100</td><td class="cb">Usa ka gatos</td><td>1000</td><td class="cb">Usa ka libo</td></tr>
+</tbody></table>
+<div class="note n-info"><strong>💱 貨幣小知識</strong>
+₱1 ≈ NT$0.55 · ₱1,000 ≈ NT$550<br>
+ATM 手續費 ₱200–250/次 · 單次上限 ₱10,000–20,000<br>
+GCash 電子錢包 E-wallet · 7-Eleven 充值 Top-up<br>
+離島 Islands 只收現金！備足 Cash<br>
+建議帶 Visa / Mastercard · 大商場 Mall 可刷卡</div>
+</div></div>
+
+<!-- ═══ 方向交通 ═══ -->
+<div class="cc lc" onclick="tgc(this)">
+<div class="cch"><div class="cc-badge" style="background:var(--tealL)">🧭</div><h3>方向 & 交通 <i>Directions</i></h3><span class="cc-arrow">▼</span></div>
+<div class="ccb">
+<div class="pc"><div class="pc-zh">📍 ____ 在哪裡？</div><div class="pc-en">"Where is ____?"</div><div class="pc-cb">Asa ang ____?</div></div>
+<div class="pc"><div class="pc-zh">🚻 廁所在哪？</div><div class="pc-en">"Where is the CR?"</div><div class="pc-cb">Asa ang CR?</div><div class="pc-note">菲律賓說 CR (Comfort Room) 不說 Bathroom</div></div>
+<div class="pc"><div class="pc-zh">⬅️ 左轉 / ➡️ 右轉</div><div class="pc-en">"Turn left / Turn right"</div><div class="pc-cb">Liko sa wala / Liko sa tuo</div></div>
+<div class="pc"><div class="pc-zh">⬆️ 直走</div><div class="pc-en">"Go straight"</div><div class="pc-cb">Diretso lang</div></div>
+<div class="pc"><div class="pc-zh">📏 還有多遠？/ 近嗎？</div><div class="pc-en">"How far?" / "Is it near?"</div><div class="pc-cb">Unsa ka layo? / Duol ba?</div></div>
+
+<div class="note n-info"><strong>🚗 交通方式一覽</strong>
+<b>Grab</b> — 最安全方便，市區首選，車資透明<br>
+<b>Jeepney</b> 吉普尼 — ₱8 起，固定路線，喊「Para!」下車<br>
+<b>Habal-habal</b> — 摩托計程車，短程方便，需議價<br>
+<b>V-Hire</b> — 小巴 ₱50–150，南北長途<br>
+<b>Ceres Bus</b> — 長途巴士，分冷氣 Aircon / 普通 Ordinary<br>
+<b>OceanJet</b> — 跨島快船 Fast Ferry<br>
+<b>Tricycle</b> 三輪車 — 短途 ₱8–50</div>
+</div></div>
+
+<!-- ═══ 求助緊急 ═══ -->
+<div class="cc lc" onclick="tgc(this)">
+<div class="cch"><div class="cc-badge" style="background:var(--roseL)">🆘</div><h3>求助 & 緊急 <i>Emergency</i></h3><span class="cc-arrow">▼</span></div>
+<div class="ccb">
+<div class="pc" style="border-left-color:var(--rose)"><div class="pc-zh">🆘 救命！幫幫我！</div><div class="pc-en">"Help!" / "Help me!"</div><div class="pc-cb">Tabang! / Tabangi ko!</div></div>
+<div class="pc" style="border-left-color:var(--rose)"><div class="pc-zh">👮 請叫警察</div><div class="pc-en">"Please call the police."</div><div class="pc-cb">Palihog tawag ug pulis.</div></div>
+<div class="pc" style="border-left-color:var(--rose)"><div class="pc-zh">🏥 我需要看醫生</div><div class="pc-en">"I need a doctor."</div><div class="pc-cb">Kinahanglan ko ug doktor.</div></div>
+<div class="pc"><div class="pc-zh">🤒 我不舒服</div><div class="pc-en">"I'm not feeling well."</div><div class="pc-cb">Dili ko maayo ug pamati.</div></div>
+<div class="pc"><div class="pc-zh">💊 藥局在哪裡？</div><div class="pc-en">"Where is the pharmacy?"</div><div class="pc-cb">Asa ang botika?</div></div>
+<div class="pc"><div class="pc-zh">📵 手機被偷了</div><div class="pc-en">"My phone was stolen."</div><div class="pc-cb">Gikawat ang akong cellphone.</div></div>
+
+<div class="note n-warn"><strong>📞 緊急電話</strong>
+<b>911</b> — 緊急電話 Emergency<br>
+<b>(032) 411-3120</b> — 宿霧旅遊警察 Tourist Police<br>
+<b>143</b> — 紅十字會 Red Cross<br>
+<b>117</b> — 國家緊急求助 DOH</div>
+</div></div>
+
+<!-- ═══ 文化禮儀 ═══ -->
+<div class="cc lc" onclick="tgc(this)">
+<div class="cch"><div class="cc-badge" style="background:var(--plumL)">🙏</div><h3>文化禮儀 <i>Culture & Etiquette</i></h3><span class="cc-arrow">▼</span></div>
+<div class="ccb">
+<div class="note n-info"><strong>🇵🇭 菲律賓文化小知識</strong>
+<b>Mano Po 吻手禮</b> — 拿起長輩的手碰額頭，說「Mano po」表示尊敬<br>
+<b>Filipino Time</b> — 菲律賓人習慣遲到 15–30 分鐘，是文化不是不禮貌<br>
+<b>Po / Opo</b> — 句尾加「po」表禮貌，「Opo」= 是的（尊敬版）<br>
+<b>微笑文化</b> — 菲律賓被稱為「亞洲微笑之國」😊</div>
+
+<div class="do-list">
+<div class="do-item"><span class="icon">✅</span><div class="text"><b>進教堂穿長褲/及膝裙</b><br><span>不穿無袖背心 Sleeveless 和短褲 Shorts</span></div></div>
+<div class="do-item"><span class="icon">✅</span><div class="text"><b>給小費 Tip ₱20–50</b><br><span>餐廳通常含 10% Service Charge，額外給更佳</span></div></div>
+<div class="do-item"><span class="icon">✅</span><div class="text"><b>飲用瓶裝水 Bottled Water</b><br><span>自來水 Tap Water 不能生飲！餐廳冰塊通常安全</span></div></div>
+<div class="do-item"><span class="icon">❌</span><div class="text"><b>不要用手指指人</b><br><span>用嘴巴努嘴示意方向是菲律賓特色</span></div></div>
+<div class="do-item"><span class="icon">❌</span><div class="text"><b>鯨鯊區禁用防曬乳</b><br><span>Oslob 嚴禁 Sunscreen！改穿防曬衣 Rash Guard</span></div></div>
+<div class="do-item"><span class="icon">❌</span><div class="text"><b>不要過分殺價</b><br><span>₱5–10 對你不多，對他們可能是一餐</span></div></div>
+<div class="do-item"><span class="icon">❌</span><div class="text"><b>夜晚避免單獨去偏僻區域</b><br><span>保管好手機和錢包 Wallet</span></div></div>
+</div>
+</div></div>
+
+<!-- ═══ 實用APP ═══ -->
+<div class="cc lc" onclick="tgc(this)">
+<div class="cch"><div class="cc-badge" style="background:var(--oliveL)">📱</div><h3>實用 APP & 技巧 <i>Tips</i></h3><span class="cc-arrow">▼</span></div>
+<div class="ccb">
+<div class="do-list">
+<div class="do-item"><span class="icon">🚕</span><div class="text"><b>Grab</b> — 叫車 + 外送 GrabFood · 菲律賓必裝</div></div>
+<div class="do-item"><span class="icon">💰</span><div class="text"><b>GCash</b> — 菲律賓最普及 E-wallet · 便利商店充值</div></div>
+<div class="do-item"><span class="icon">🗺️</span><div class="text"><b>Google Maps</b> — 提前下載離線地圖 Offline Map！</div></div>
+<div class="do-item"><span class="icon">🏨</span><div class="text"><b>Agoda / Booking</b> — 比價訂房 · 週間通常有折扣</div></div>
+<div class="do-item"><span class="icon">🌐</span><div class="text"><b>Google Translate</b> — 支援 Cebuano！拍照翻譯菜單</div></div>
+<div class="do-item"><span class="icon">⛴️</span><div class="text"><b>OceanJet</b> — oceanjet.net 線上購票跨島快船</div></div>
+</div>
+
+<div class="note n-tip"><strong>📶 SIM 卡 & 上網</strong>
+Globe 或 Smart SIM 卡 — 7天無限上網 ₱299<br>
+SM City / Ayala 電信櫃台辦理最方便<br>
+離島 Globe 覆蓋較好 · 建議雙卡手機 Dual SIM</div>
+
+<div class="note n-info"><strong>⚡ 其他小技巧</strong>
+電壓 220V · 插座美規兩腳扁型（和台灣一樣）<br>
+常備藥：腸胃藥、暈車藥、防蚊液、OK繃<br>
+防水袋 Dry Bag 必帶！跳島漂流都需要<br>
+自備浮潛面鏡 Snorkel Mask 每次省 ₱200–300<br>
+6–11月雨季 Rainy Season 注意颱風</div>
+</div></div>
+
+<!-- ═══ 伴手禮 ═══ -->
+<div class="cc lc" onclick="tgc(this)">
+<div class="cch"><div class="cc-badge" style="background:var(--goldL)">🎁</div><h3>伴手禮清單 <i>Pasalubong</i></h3><span class="cc-arrow">▼</span></div>
+<div class="ccb">
+<div class="note n-tip"><strong>🛍️ Pasalubong</strong> 是菲律賓語「伴手禮」— 出門旅行帶禮物回家的文化！</div>
+<div class="fg">
+<div class="fg-item"><div class="emoji">🥭</div><div class="zh">芒果乾</div><div class="en">7D Dried Mango</div><div class="local">₱80–120/包</div></div>
+<div class="fg-item"><div class="emoji">🥐</div><div class="zh">蛋捲酥餅</div><div class="en">Otap</div><div class="local">₱50–80/盒</div></div>
+<div class="fg-item"><div class="emoji">🥥</div><div class="zh">椰子油</div><div class="en">Coconut Oil</div><div class="local">₱80–150/瓶</div></div>
+<div class="fg-item"><div class="emoji">🎸</div><div class="zh">手工烏克</div><div class="en">Ukulele</div><div class="local">Mactan ₱500+</div></div>
+<div class="fg-item"><div class="emoji">🍰</div><div class="zh">Silvanas</div><div class="en">奶油夾心餅</div><div class="local">Dumaguete 名產</div></div>
+<div class="fg-item"><div class="emoji">🍌</div><div class="zh">香蕉片</div><div class="en">Banana Chips</div><div class="local">₱30–60/包</div></div>
+<div class="fg-item"><div class="emoji">🐚</div><div class="zh">貝殼飾品</div><div class="en">Shell Crafts</div><div class="local">Carbon Market</div></div>
+<div class="fg-item"><div class="emoji">👕</div><div class="zh">紀念 T 恤</div><div class="en">Souvenir Shirt</div><div class="local">₱100–200</div></div>
+</div>
+</div></div>
+
+<div class="footer-box">
+<div class="msg">🌺 Maayong pagpuyo sa Cebu!</div>
+<div class="sub">祝你在宿霧生活愉快！Enjoy your stay!</div>
+</div>
+
+</div></div>
+
+<!-- BOTTOM NAV -->
+<nav class="bnav">
+<button class="on" onclick="sw(0)"><span class="bi">🗺️</span><span class="bl">探索宿霧</span></button>
+<button onclick="sw(1)"><span class="bi">📖</span><span class="bl">生活指南</span></button>
+</nav>
+<button class="btt" id="btt" onclick="scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<script>
+function sw(i){
+document.querySelectorAll('.tab').forEach((t,j)=>t.classList.toggle('on',j===i));
+document.querySelectorAll('.panel').forEach((p,j)=>p.classList.toggle('on',j===i));
+document.querySelectorAll('.bnav button').forEach((b,j)=>b.classList.toggle('on',j===i));
+scrollTo({top:0,behavior:'smooth'});
+}
+function tg(el){event.stopPropagation();el.classList.toggle('o')}
+function tgc(el){event.stopPropagation();el.classList.toggle('o')}
+function openArea(id){
+event.preventDefault();
+const el=document.getElementById(id);
+if(el&&!el.classList.contains('o'))el.classList.add('o');
+setTimeout(()=>el.scrollIntoView({behavior:'smooth',block:'start'}),50);
+}
+addEventListener('scroll',()=>document.getElementById('btt').classList.toggle('v',scrollY>400));
+function filterLife(q){
+q=q.toLowerCase().trim();
+document.querySelectorAll('.lc').forEach(c=>{
+if(!q){c.style.display='';return}
+const m=c.textContent.toLowerCase().includes(q);
+c.style.display=m?'':'none';
+if(m&&!c.classList.contains('o'))c.classList.add('o');
+});
+}
+if('serviceWorker' in navigator){
+navigator.serviceWorker.register('sw.js').catch(()=>{});
+}
+</script>
+</body>
+</html>

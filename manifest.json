@@ -1,0 +1,17 @@
+{
+  "name": "CEBU 宿霧札記",
+  "short_name": "CEBU札記",
+  "description": "宿霧深度旅遊規劃 & 生活指南",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#FAF5ED",
+  "theme_color": "#2E7D8C",
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}
