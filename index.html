@@ -186,6 +186,21 @@ body{font-family:'Noto Sans TC',-apple-system,'Helvetica Neue','PingFang TC',san
 .footer-box .msg{font-family:'Caveat',cursive;font-size:1.4rem;color:var(--teal)}
 .footer-box .sub{font-size:.8rem;color:var(--ink3);margin-top:2px}
 
+/* INSTALL BANNER */
+.install-banner{position:fixed;bottom:calc(var(--sb) + 64px);left:12px;right:12px;z-index:300;background:linear-gradient(135deg,#2E7D8C 0%,#3BA5C9 100%);color:#fff;border-radius:16px;padding:16px 18px;box-shadow:0 8px 30px rgba(46,125,140,.35);display:none;animation:ib-in .4s ease}
+@keyframes ib-in{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.install-banner.show{display:block}
+.ib-top{display:flex;align-items:center;gap:12px}
+.ib-icon{width:48px;height:48px;border-radius:12px;overflow:hidden;flex-shrink:0;background:#fff;box-shadow:0 2px 8px rgba(0,0,0,.15)}
+.ib-icon img{width:100%;height:100%;object-fit:cover}
+.ib-text h4{font-size:.95rem;font-weight:700;margin-bottom:2px}
+.ib-text p{font-size:.75rem;opacity:.85;line-height:1.4}
+.ib-close{position:absolute;top:10px;right:12px;background:none;border:none;color:rgba(255,255,255,.7);font-size:1.1rem;cursor:pointer;padding:4px}
+.ib-steps{margin-top:12px;padding-top:10px;border-top:1px solid rgba(255,255,255,.2);font-size:.8rem;line-height:1.7}
+.ib-steps b{display:inline-block;background:rgba(255,255,255,.2);padding:1px 8px;border-radius:6px;font-size:.75rem;margin-right:4px}
+.ib-btn{display:block;width:100%;margin-top:12px;padding:11px;background:#fff;color:var(--teal);border:none;border-radius:10px;font-family:inherit;font-size:.88rem;font-weight:700;cursor:pointer;text-align:center}
+.ib-btn:active{opacity:.85}
+
 /* SEARCH */
 .search-wrap{position:relative;margin:4px 0 12px}
 .search-wrap input{width:100%;padding:10px 14px 10px 38px;border:1.5px solid var(--border);border-radius:22px;background:var(--card);font-family:inherit;font-size:.85rem;color:var(--ink);outline:none;transition:border-color .15s}
@@ -657,6 +672,19 @@ SM City / Ayala 電信櫃台辦理最方便<br>
 </nav>
 <button class="btt" id="btt" onclick="scrollTo({top:0,behavior:'smooth'})">↑</button>
 
+<!-- INSTALL BANNER -->
+<div class="install-banner" id="ib">
+<button class="ib-close" onclick="dismissInstall()">&times;</button>
+<div class="ib-top">
+<div class="ib-icon"><img src="APP-ICON.png" alt="CEBU"></div>
+<div class="ib-text">
+<h4>加入主畫面，隨時查看！</h4>
+<p>安裝 CEBU 宿霧札記，離線也能使用</p>
+</div>
+</div>
+<div class="ib-steps" id="ib-steps"></div>
+</div>
+
 <script>
 function sw(i){
 document.querySelectorAll('.tab').forEach((t,j)=>t.classList.toggle('on',j===i));
@@ -684,6 +712,46 @@ if(m&&!c.classList.contains('o'))c.classList.add('o');
 }
 if('serviceWorker' in navigator){
 navigator.serviceWorker.register('sw.js').catch(()=>{});
+}
+
+// Install banner logic
+let deferredPrompt=null;
+const isStandalone=window.matchMedia('(display-mode:standalone)').matches||navigator.standalone;
+
+window.addEventListener('beforeinstallprompt',e=>{
+e.preventDefault();
+deferredPrompt=e;
+showInstallBanner('android');
+});
+
+function showInstallBanner(type){
+if(isStandalone||localStorage.getItem('ib-dismiss'))return;
+const ib=document.getElementById('ib');
+const steps=document.getElementById('ib-steps');
+if(type==='android'&&deferredPrompt){
+steps.innerHTML='<button class="ib-btn" onclick="doInstall()">立即安裝 Install Now</button>';
+}else if(type==='ios'){
+steps.innerHTML='<b>1</b> 點擊底部 <b style="font-size:1rem;">⎙</b> 分享按鈕<br><b>2</b> 選擇「加入主畫面」<br><b>3</b> 點右上角「新增」';
+}
+ib.classList.add('show');
+}
+
+function doInstall(){
+if(!deferredPrompt)return;
+deferredPrompt.prompt();
+deferredPrompt.userChoice.then(()=>{deferredPrompt=null;document.getElementById('ib').classList.remove('show')});
+}
+
+function dismissInstall(){
+document.getElementById('ib').classList.remove('show');
+localStorage.setItem('ib-dismiss','1');
+}
+
+// iOS detection
+const isIOS=/iPad|iPhone|iPod/.test(navigator.userAgent)||
+(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1);
+if(isIOS&&!isStandalone&&!deferredPrompt){
+setTimeout(()=>showInstallBanner('ios'),1500);
 }
 </script>
 </body>
